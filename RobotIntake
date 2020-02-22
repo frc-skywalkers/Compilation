@@ -1,0 +1,101 @@
+package frc.robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+public class Robot extends TimedRobot {
+  private Joystick m_Stick;
+  private static final int LeftDeviceMasterID = 6; //Masters: 6 and 8
+  private static final int LeftDeviceFollowerID= 7;
+  private static final int RightDeviceMasterID = 8;
+  private static final int RightDeviceFollowerID=9;
+  private static final int IntakeID=5;
+  //private static int statetracker=0;
+
+  private CANSparkMax m_LeftMotorMaster;
+  private CANSparkMax m_LeftMotorFollower;
+  private CANSparkMax m_RightMotorMaster;
+  private CANSparkMax m_RightMotorFollower;
+  private CANSparkMax m_Intake;
+  @Override
+  public void robotInit() {
+  /**
+   * SPARK MAX controllers are intialized over CAN by constructing a CANSparkMax object
+   * 
+   * The CAN ID, which can be configured using the SPARK MAX Client, is passed as the
+   * first parameter
+   * 
+   * The motor type is passed as the second parameter. Motor type can either be:
+   *  com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless
+   *  com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed
+   * 
+   * The example below initializes four brushless motors with CAN IDs 1 and 2. Change
+   * these parameters to match your setup
+   */
+    m_LeftMotorMaster = new CANSparkMax(LeftDeviceMasterID, MotorType.kBrushless);
+    m_LeftMotorFollower = new CANSparkMax(LeftDeviceFollowerID, MotorType.kBrushless);
+    m_LeftMotorMaster.restoreFactoryDefaults();
+    m_LeftMotorFollower.follow(m_LeftMotorMaster);
+
+
+    m_RightMotorMaster = new CANSparkMax(RightDeviceMasterID, MotorType.kBrushless);
+    m_RightMotorFollower = new CANSparkMax(RightDeviceFollowerID, MotorType.kBrushless);
+    m_RightMotorMaster.restoreFactoryDefaults();
+    m_RightMotorFollower.follow(m_RightMotorMaster);
+    m_RightMotorMaster.setInverted(true);
+
+    m_Intake= new CANSparkMax(IntakeID, MotorType.kBrushless);
+    m_Intake.restoreFactoryDefaults();
+    //m_rightMotor = new CANSparkMax(rightDeviceID, MotorType.kBrushless);
+
+   
+    
+
+    
+    /**
+     * The RestoreFactoryDefaults method can be used to reset the configuration parameters
+     * in the SPARK MAX to their factory default state. If no argument is passed, these
+     * parameters will not persist between power cycles
+     */
+  
+    
+    
+
+    
+    //m_rightMotor.restoreFactoryDefaults();
+
+    //m_myRobot = new DifferentialDrive(m_Motor, m_rightMotor);
+
+    m_Stick = new Joystick(0);
+
+    //m_RightStick = 
+
+  }
+  
+  @Override
+  public void teleopPeriodic() {
+    //m_myRobot.tankDrive(m_Stick.getY(), m_rightStick.getY());
+
+    //double rightPower = m_Stick.getRawAxis(1) - m_Stick.getRawAxis(0); //1-y axis 0-x axis
+    //double leftPower = m_Stick.getRawAxis(1) + m_Stick.getRawAxis(0);
+    //m_LeftMotorMaster.set(leftPower*0.5);
+    //m_RightMotorMaster.set(rightPower*0.5);
+    double intakePpower= m_Stick.getRawAxis(1);
+    m_Intake.set(intakePpower*0.5);
+    //if(m_Stick.getRawButton(1)){
+      //statetracker += 1;
+      //statetracker = statetracker % 2;
+      //if(statetracker==1){
+        //m_Intake.set(-0.05);
+      //}
+      //else{
+        //m_Intake.stopMotor();
+      //}
+    //}
+    
+  }
+}
